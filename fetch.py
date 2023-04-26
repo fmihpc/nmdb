@@ -147,8 +147,8 @@ inserted = 0
 for station in new_data.keys():
 	for dt in new_data[station].keys():
 		cursor.execute('select exists (select from ' + args.table + ' where datetime = %s and station = %s)', (dt, station))
-		result = cursor.fetchone()
-		if not result[0]:
+		result = cursor.fetchone()[0]
+		if not result:
 			cursor.execute('insert into ' + args.table + ' (datetime, station, value) values (%s, %s, %s)', (dt, station, new_data[station][dt]))
 			inserted += 1
 connection.commit()
