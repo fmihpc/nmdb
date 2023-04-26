@@ -152,4 +152,6 @@ for station in new_data.keys():
 			cursor.execute('insert into ' + args.table + ' (datetime, station, value) values (%s, %s, %s)', (dt, station, new_data[station][dt]))
 			inserted += 1
 connection.commit()
+cursor.close()
+connection.close()
 print(inserted, 'new values added to database')
