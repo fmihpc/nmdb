@@ -99,15 +99,13 @@ except Exception as e:
 	print("Couldn't connect to database: ", e)
 	exit(1)
 
-cursor = connection.cursor()
 
-# possibly create db
-cursor.execute('create table if not exists ' + args.table + ' (datetime varchar, station varchar, value real)')
-connection.commit()
-
-# TODO: make sure that correct columns exist
-
-text = requests.get(args.url).text
+try:
+	text = requests.get(args.url).text
+except Exception as e:
+	print("Couldn't download data from " + args.url + ':', e)
+	connection.close()
+	exit(1)
 
 data = dict()
 for line in text.splitlines():
@@ -124,6 +122,15 @@ for line in text.splitlines():
 		data[station][dt] = value
 	except:
 		print("Couldn't process line:", line)
+
+
+cursor = connection.cursor()
+
+# possibly create db
+cursor.execute('create table if not exists ' + args.table + ' (datetime varchar, station varchar, value real)')
+connection.commit()
+
+# TODO: make sure that correct columns exist
 
 # exclude old data
 new_data = dict()
