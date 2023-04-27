@@ -114,13 +114,16 @@ for line in text.splitlines():
 	line = line.strip()
 	if line.startswith('#'):
 		continue
-	items = line.split(';')
-	dt = datetime.strptime(items[0], '%Y-%m-%d %H:%M:%S').isoformat(timespec = 'seconds')
-	station = items[1]
-	value = float(items[2])
-	if not station in data:
-		data[station] = dict()
-	data[station][dt] = value
+	try:
+		items = line.split(';')
+		dt = datetime.strptime(items[0], '%Y-%m-%d %H:%M:%S').isoformat(timespec = 'seconds')
+		station = items[1]
+		value = float(items[2])
+		if not station in data:
+			data[station] = dict()
+		data[station][dt] = value
+	except:
+		print("Couldn't process line:", line)
 
 # exclude old data
 new_data = dict()
