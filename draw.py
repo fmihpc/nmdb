@@ -38,7 +38,7 @@ except Exception as e:
 	exit(1)
 try:
 	import psycopg2
-except:
+except Exception as e:
 	print("Couldn't import psycopg2, try pip3 install --user psycopg2:", e)
 	exit(1)
 
