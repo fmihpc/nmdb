@@ -29,7 +29,6 @@ Aurthor(s): Ilja Honkonen
 import argparse
 from datetime import datetime
 import os
-from time import sleep
 
 try:
 	import psycopg2
