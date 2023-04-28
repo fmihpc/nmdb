@@ -92,6 +92,10 @@ parser.add_argument(
 	'--title',
 	default = 'Realtime nmdb.eu data',
 	help = 'Plot title to use.')
+parser.add_argument(
+	'--path',
+	default = 'draw.png',
+	help = 'Save plot in PATH.')
 
 args = parser.parse_args()
 
@@ -145,4 +149,4 @@ for station in sorted(data.keys()):
 		values.append(i[1])
 	plot(dts, values, '*', markersize = 1)
 gca().xaxis.set_major_formatter(mdates.DateFormatter(args.format))
-savefig('draw.png', dpi = 300)
+savefig(args.path, dpi = 300)
