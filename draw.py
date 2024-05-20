@@ -2,7 +2,7 @@
 '''
 Program for plotting realtime neutron monitor data from postgresql.
 
-Copyright 2023 Finnish Meteorological Institute
+Copyright 2023, 2024 Finnish Meteorological Institute
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the “Software”), to deal
@@ -27,7 +27,7 @@ Aurthor(s): Ilja Honkonen
 '''
 
 import argparse
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import os
 
 try:
@@ -78,11 +78,11 @@ parser.add_argument(
 	help = 'Use table T in database N.')
 parser.add_argument(
 	'--start',
-	default = (datetime.utcnow() - timedelta(days = 1)).isoformat(timespec = 'seconds'),
+	default = (datetime.now(timezone.utc) - timedelta(days = 1)).isoformat(timespec = 'seconds').split('+')[0],
 	help = 'Start plot from this time (UTC, default 1 day ago).')
 parser.add_argument(
 	'--end',
-	default = datetime.utcnow().isoformat(timespec = 'seconds'),
+	default = datetime.now(timezone.utc).isoformat(timespec = 'seconds').split('+')[0],
 	help = 'End plot at this time (UTC, default now).')
 parser.add_argument(
 	'--format',
