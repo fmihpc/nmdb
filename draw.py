@@ -78,11 +78,11 @@ parser.add_argument(
 	help = 'Use table T in database N.')
 parser.add_argument(
 	'--start',
-	default = (datetime.now(timezone.utc) - timedelta(days = 1)).isoformat(timespec = 'seconds').split('+')[0],
+	default = (datetime.now(timezone.utc) - timedelta(days = 1)).isoformat(timespec = 'seconds').replace('+00:00', 'Z'),
 	help = 'Start plot from this time (UTC, default 1 day ago).')
 parser.add_argument(
 	'--end',
-	default = datetime.now(timezone.utc).isoformat(timespec = 'seconds').split('+')[0],
+	default = datetime.now(timezone.utc).isoformat(timespec = 'seconds').replace('+00:00', 'Z'),
 	help = 'End plot at this time (UTC, default now).')
 parser.add_argument(
 	'--format',
@@ -100,12 +100,12 @@ parser.add_argument(
 args = parser.parse_args()
 
 try:
-	_ = datetime.strptime(args.start, '%Y-%m-%dT%H:%M:%S')
+	_ = datetime.strptime(args.start, '%Y-%m-%dT%H:%M:%S%z')
 except Exception as e:
 	print('Invalid plot start time:', e)
 	exit(1)
 try:
-	_ = datetime.strptime(args.end, '%Y-%m-%dT%H:%M:%S')
+	_ = datetime.strptime(args.end, '%Y-%m-%dT%H:%M:%S%z')
 except Exception as e:
 	print('Invalid plot end time:', e)
 	exit(1)
